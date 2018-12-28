@@ -6,7 +6,6 @@ $("#buscador input").change(function () {
     var exresion = /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]*$/;
     if(!exresion.test(busqueda)){
         $("#buscador input").val("");
-        console.log("error")
     }
     else{
         var evaluarBusqueda = busqueda.replace(/[áéíóúÁÉÍÓÚ ]/g,"-");

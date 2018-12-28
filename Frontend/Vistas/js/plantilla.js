@@ -77,7 +77,6 @@ var indicice = url.split("/");
 if(indicice.length>7)
 {
     var pocicion = indicice[(indicice.length-3)];  
-    console.log(pocicion);
     $("#item"+pocicion).addClass("active");
 }
 else{

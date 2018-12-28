@@ -6,6 +6,8 @@
     }
     echo'
     <script>
+        localStorage.removeItem("usuario");
+        localStorage.clear();
         window.location ="'.$url.'";
     </script>
     ';

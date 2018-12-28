@@ -2,6 +2,18 @@
 	$servidor = Ruta::ctrRutaServidor();
 	$url = Ruta::ctrRuta();
 	/*============================================================
+	INICIO DE SESION USUARIO                             
+	============================================================*/
+	if(isset($_SESSION["validarSesion"])){
+		if($_SESSION["validarSesion"] == "ok"){
+			echo'
+				<script>
+					localStorage.setItem("usuario","'.$_SESSION["id"].'");
+				</script>
+			';
+		}
+	}
+	/*============================================================
 	  CREAR OBJETO API GOOGLE                               
 	============================================================*/
 	$cliente = new Google_Client();

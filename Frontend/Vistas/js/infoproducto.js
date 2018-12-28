@@ -79,3 +79,18 @@ $(window).on("load",function () {
         }
     });
 });
+/*=============================================
+ALTURA COMENTARIOS
+=============================================*/
+$(".comentarios").css({"height":$(".comentarios .alturaComentarios").height()+"px","overflow":"hidden","margin-bottom":"20px"})
+$("#verMas").click(function (e) { 
+    e.preventDefault();
+    if($("#verMas").html() == "VER MÁS"){
+        $(".comentarios").css({"overflow":"inherit"});
+        $("#verMas").html("VER MENOS");
+    }
+    else{
+        $(".comentarios").css({"height":$(".comentarios .alturaComentarios").height()+"px","overflow":"hidden","margin-bottom":"20px"})       
+        $("#verMas").html("VER MÁS");
+    }
+});
