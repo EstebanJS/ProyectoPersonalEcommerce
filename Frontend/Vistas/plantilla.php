@@ -38,6 +38,7 @@
 	<link rel="stylesheet" href="<?php echo $url?>Vistas/css/productos.css">
 	<link rel="stylesheet" href="<?php echo $url?>Vistas/css/infoproducto.css">
 	<link rel="stylesheet" href="<?php echo $url?>Vistas/css/perfil.css">
+	<link rel="stylesheet" href="<?php echo $url?>Vistas/css/carrito-de-compras.css">
 	<!--=============================================
 	PLGINS DE JAVASCRIPT
 	=============================================-->
@@ -99,7 +100,7 @@
 				include "modulos/infoproducto.php";
 				
 			}
-			else if ($rutas[0]=="buscador" || $rutas[0]=="verificar" || $rutas[0]=="salir" || $rutas[0]=="perfil" ) {
+			else if ($rutas[0]=="buscador" || $rutas[0]=="verificar" || $rutas[0]=="salir" || $rutas[0]=="perfil" || $rutas[0]=="carrito-de-compras" ) {
 				include "modulos/".$rutas[0].".php";
 			}
 			else{
@@ -123,6 +124,7 @@
 	<script src="<?php echo $url?>Vistas/js/infoproducto.js"></script>
 	<script src="<?php echo $url?>Vistas/js/usuarios.js"></script>
 	<script src="<?php echo $url?>Vistas/js/registroFacebook.js"></script>
+	<script src="<?php echo $url?>Vistas/js/carrito-de-compras.js"></script>
 	<script>
 		window.fbAsyncInit = function() {
 			FB.init({

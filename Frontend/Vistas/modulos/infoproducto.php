@@ -195,7 +195,7 @@ INFOPRODUCTOS
                             if($infoproducto["tipo"] == "fisico"){
                                 if($detalles["Talla"] != null){
                                     echo '<div class="col-md-3 col-xs-12">
-                                        <select class="form-control selecionarDetalle" id="selecionarTalla">
+                                        <select class="form-control seleccionarDetalle" id="selecionarTalla">
                                             <option value="">Talla</option>';
                                         for($i = 0;$i<=count($detalles["Talla"]);$i++){
                                             echo'<option value="'.$detalles["Talla"][$i].'">'.$detalles["Talla"][$i].'</option>';
@@ -385,14 +385,18 @@ INFOPRODUCTOS
                                     <button class="btn btn-default btn-block btn-lg"><small>COMPRAR AHORA</small></button>
                                 </div>
                                 <div class="col-md-6 col-xs-12">
-                                    <button class="btn btn-default btn-block btn-lg backColor"><small>ADICIONAR  AL CARRITO</small><i class="fa fa-shopping-cart col-md-0"></i> </button>
+                                    <button class="btn btn-default btn-block btn-lg backColor agregarCarrito" idProducto="'.$infoproducto["id"].'" imagen="'.$servidor.$infoproducto["portada"].'" titulo="'.$infoproducto["titulo"].'" precio="'.$infoproducto["precioOferta"].'" tipo="'.$infoproducto["tipo"].'" peso="'.$infoproducto["peso"].'">
+                                        <small>ADICIONAR  AL CARRITO</small><i class="fa fa-shopping-cart col-md-0"></i> 
+                                    </button>
                                 </div>
                                 ';    
                             }
                             else{
                                 echo'
                                 <div class="col-lg-6 col-md-8 col-xs-12">
-                                    <button class="btn btn-default btn-block btn-lg backColor">ADICIONAR  AL CARRITO <i class="fa fa-shopping-cart"></i> </button>
+                                    <button class="btn btn-default btn-block btn-lg backColor agregarCarrito" idProducto="'.$infoproducto["id"].'" imagen="'.$servidor.$infoproducto["portada"].'" titulo="'.$infoproducto["titulo"].'" precio="'.$infoproducto["precioOferta"].'" tipo="'.$infoproducto["tipo"].'" peso="'.$infoproducto["peso"].'"> 
+                                        ADICIONAR  AL CARRITO <i class="fa fa-shopping-cart"></i> 
+                                    </button>
                                 </div>
                                 ';
                             }
