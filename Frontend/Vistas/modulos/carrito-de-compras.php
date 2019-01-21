@@ -1,3 +1,6 @@
+<?php
+    $url = Ruta::ctrRuta();
+?>
 <!--=====================================
 BREADCRUMB CARRITO DE COMPRAS 
 ======================================-->
@@ -79,10 +82,120 @@ TABLA CARRITO DE COMPRAS
 			======================================-->
 
 			<div class="panel-heading cabeceraCheckout">
-				
-				<button class="btn btn-default backColor btn-lg pull-right">REALIZAR PAGO</button>
-
+                <?php
+                    if(isset($_SESSION["validarSesion"])){
+                        if($_SESSION["validarSesion"]=="ok"){
+                            echo'
+                                <a id="btnCheckout" href="#modalCheckout" data-toggle="modal" idUsuario="'.$_SESSION["id"].'">
+                                    <button class="btn btn-default backColor btn-lg pull-right">REALIZAR PAGO</button>
+                                </a>
+                            ';
+                        }
+                    }
+                    else{
+                        echo'
+                        <a href="#modalIngreso" data-toggle="modal">
+                            <button class="btn btn-default backColor btn-lg pull-right">REALIZAR PAGO</button>
+                        </a>
+                        ';
+                    }
+                ?>
 			</div>
         </div>
+    </div>
+</div>
+<!--=====================================
+VENTANA MODAL CHECKOUT
+======================================-->
+<div id="modalCheckout" class="modal fade modalFormulario" role="dialog">
+    <div class="modal-content modal-dialog">
+        <div class="modal-body modalTitulo">
+            <h3 class="backColor">
+                RRALIZAR PAGO
+            </h3>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="contenidoCheckout">
+                <?php
+                    $respuesta=ControladorCarrito::ctrMostrarTarifas();
+                    echo'
+                        <input type="hidden" name="" id="tasaImpuesto" value="'.$respuesta["impuesto"].'">                    
+                        <input type="hidden" name="" id="envioNacional" value="'.$respuesta["envioNacional"].'">                    
+                        <input type="hidden" name="" id="envioInternacional" value="'.$respuesta["envioInternacional"].'">                    
+                        <input type="hidden" name="" id="tasaMinimaNal" value="'.$respuesta["tasaMinimaNal"].'">                    
+                        <input type="hidden" name="" id="tasaMinimaInt" value="'.$respuesta["tasaMinimaInt"].'">                    
+                        <input type="hidden" name="" id="tasaPais" value="'.$respuesta["pais"].'">                    
+                    ';
+                ?>
+                <div class="formEnvio row">
+                    <h4 class="text-center well text-muted text-uppercase">Información envió</h4>
+                    <div class="col-xs-12 seleccionePais">
+                        
+                    </div>
+                </div>
+                <br>
+                <div class="formaPago row">
+                    <h4 class="text-center well text-muted text-uppercase">Elige la forma de pago</h4>
+                    <figure class="col-xs-6">
+                        <center>
+                            <input type="radio" name="pago" id="checkPago" value="paypal" checked>
+                        </center>
+                        <img src="<?php echo $url?>vistas/img/plantilla/paypal.jpg" class="img-thumbnail">
+                    </figure>
+                    <figure class="col-xs-6">
+                        <center>
+                            <input type="radio" name="pago" id="checkPayu" value="payu">
+                        </center>
+                        <img src="<?php echo $url?>vistas/img/plantilla/payu.jpg" class="img-thumbnail">
+                    </figure>
+                </div>
+                <br>
+                <div class="listaProductos row">
+                    <h4 class="text-center well text-muted text-uppercase">Productos a comprar</h4>
+                    <table class="table table-striped tablaProductos">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="col-sm-6 col-xs-12 pull-right">
+                        <table class="table table-striped tablaTasas">
+                            <tbody>
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td><span class="cambioDivisa">USD</span> $<span class="valorSubTotal" valor="0">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Envío</td>
+                                    <td><span class="cambioDivisa">USD</span> $<span class="valorTotalEnvio" valor="0">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Impuesto</td>
+                                    <td><span class="cambioDivisa">USD</span> $<span class="valorTotalImpuesto" valor="0">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total</strong></td>
+                                    <td><strong><span class="cambioDivisa">USD</span> $<span class="valorTotalCompra" valor="0">0</span></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="divisa">
+                            <select class="form-control" name="divisa" id="cambiarDivisa">
+                                
+                            </select>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <button class="btn btn-block btn-lg btn-default backColor btnPagar">PAGAR</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
     </div>
 </div>

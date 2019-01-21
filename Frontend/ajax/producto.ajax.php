@@ -9,9 +9,13 @@ class AjaxProductos{
     public $ruta;
 
 	public function ajaxVistaProducto(){
-        $datos = array('valor' =>$this->valor , 'ruta' =>$this->ruta );
-        $item = $this->item;
-        $respuesta = ControladorProductos::ctrActualizarVistaProducto($datos,$item);
+        
+        $valor1 = $this->valor;
+        $item1 = $this->item;
+        $valor2 = $this->ruta;
+        $item2 ="ruta";
+        
+        $respuesta = ControladorProductos::ctrActualizarProducto($item1,$valor1,$item2,$valor2);
 		echo $respuesta;
 	}
 
