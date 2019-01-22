@@ -1,5 +1,7 @@
 <?php
 require_once "../extensiones/paypal.controlador.php";
+require_once "../Controladores/carrito.controlador.php";
+require_once "../Modelos/carrito.modelo.php";
 class AjaxCarrito{
     public $divisa;
 	public $impuesto;
@@ -10,6 +12,10 @@ class AjaxCarrito{
 	public $cantidadArray;
 	public $valorItemArray;
     public $idProductoArray;
+
+    /*=======================================
+    METODO PAYPAL
+    =======================================*/
 
     public function ajaxEnviarPaypal(){
         $datos = $arrayName = array(
@@ -26,7 +32,17 @@ class AjaxCarrito{
 
         $respuesta = Paypal::mdlPagoPaypal($datos);
         echo $respuesta;
+        
     }
+
+    /*=======================================
+    METODO PAYU
+    =======================================*/
+    public function TraerComercioPayu(){
+        $respuesta = ControladorCarrito::ctrMostrarTarifas();
+        echo json_encode($respuesta);
+    }
+
 }
 /*=======================================
 METODO PAYPAL
@@ -43,4 +59,11 @@ if(isset($_POST["divisa"])){
 	$paypal ->valorItemArray = $_POST["valorItemArray"];
     $paypal ->idProductoArray = $_POST["idProductoArray"];
     $paypal -> ajaxEnviarPaypal();
+}
+/*=======================================
+METODO PAYU
+=======================================*/
+if(isset($_POST["metodoPago"]) && $_POST["metodoPago"] == "payu"){
+    $payu = new AjaxCarrito();
+    $payu -> TraerComercioPayu();
 }

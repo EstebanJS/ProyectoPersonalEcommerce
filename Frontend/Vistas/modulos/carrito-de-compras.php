@@ -137,7 +137,7 @@ VENTANA MODAL CHECKOUT
                     <h4 class="text-center well text-muted text-uppercase">Elige la forma de pago</h4>
                     <figure class="col-xs-6">
                         <center>
-                            <input type="radio" name="pago" id="checkPago" value="paypal" checked>
+                            <input type="radio" name="pago" id="checkPaypal" value="paypal" checked>
                         </center>
                         <img src="<?php echo $url?>vistas/img/plantilla/paypal.jpg" class="img-thumbnail">
                     </figure>
@@ -192,6 +192,26 @@ VENTANA MODAL CHECKOUT
                         </div>
                     </div>
                     <div class="clearfix"></div>
+                    <form class="formPayu"  style="display:none">
+                        <input name="merchantId" type="hidden" value=""/>
+						<input name="accountId" type="hidden" value=""/>
+						<input name="description" type="hidden" value=""/>
+						<input name="referenceCode" type="hidden" value=""/>	
+						<input name="amount" type="hidden" value=""/>
+						<input name="tax" type="hidden" value=""/>
+						<input name="taxReturnBase" type="hidden" value=""/>
+						<input name="shipmentValue" type="hidden" value=""/>
+						<input name="currency" type="hidden" value=""/>
+						<input name="lng" type="hidden" value="es"/>
+						<input name="confirmationUrl" type="hidden" value="" />
+						<input name="responseUrl" type="hidden" value=""/>
+						<input name="declinedResponseUrl" type="hidden" value=""/>
+						<input name="displayShippingInformation" type="hidden" value=""/>
+						<input name="test" type="hidden" value="" />
+						<input name="signature" type="hidden" value=""/>
+
+                        <input name="Submit" class="btn btn-block btn-lg btn-default backColor" type="submit"  value="PAGAR" >
+                    </form>
                     <button class="btn btn-block btn-lg btn-default backColor btnPagar">PAGAR</button>
                 </div>
             </div>

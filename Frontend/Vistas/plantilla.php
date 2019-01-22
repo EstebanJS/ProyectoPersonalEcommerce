@@ -48,6 +48,7 @@
 	<script src="<?php echo $url?>Vistas/js/plugins/jquery.scrollUp.js"></script>
 	<script src="<?php echo $url?>Vistas/js/plugins/jquery.flexslider.js"></script>
 	<script src="<?php echo $url?>Vistas/js/plugins/sweetalert.min.js"></script>
+	<script src="<?php echo $url?>Vistas/js/plugins/md5-min.js"></script>
 	
 </head>
 <body>

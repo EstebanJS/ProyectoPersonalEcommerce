@@ -429,6 +429,8 @@ function cestaCarrito(cantidadProductos){
 CHECKOUT
 =============================================*/
 $("#btnCheckout").click(function () { 
+	$("#checkPaypal").prop("checked",true);
+	$("#checkPayu").prop("checked",false);
 	$(".listaProductos table.tablaProductos tbody").html("");
 	var idUsuario = $(this).attr("idUsuario");
 	var peso = $(".cuerpoCarrito button, .comprarAhora button");
@@ -550,6 +552,7 @@ $("#btnCheckout").click(function () {
 					}
 				}
 				sumaTotalDefinitivo();
+				pagarConPayu();
 			});
 		}
 		else{
@@ -573,6 +576,15 @@ divisas(metodoPago);
 $("input[name='pago']").change(function () { 
 	var metodoPago = $(this).val();
 	divisas(metodoPago);
+	if(metodoPago == "payu"){
+		$(".btnPagar").hide();
+		$(".formPayu").show();
+		pagarConPayu();
+	}
+	else{
+		$(".btnPagar").show();
+		$(".formPayu").hide();
+	}
 });
 /*=======================================
 FUNCION CAMBIO DE DIVISA
@@ -636,11 +648,12 @@ $("#cambiarDivisa").change(function () {
 			for(var i = 0;i < valorItem.length;i++){
 				$(valorItem[i]).html((Number(conversion) * Number($(valorItem[i]).attr("valor"))).toFixed(2));
 			}
+			pagarConPayu();
 		}	
 	});
 });
 /*=======================================
-BOTON PAGAR
+BOTON PAGAR PAYPAL
 =======================================*/
 $(".btnPagar").click(function () { 
 	var tipo = $(this).attr("tipo");
@@ -691,3 +704,100 @@ $(".btnPagar").click(function () {
 		}
 	});
 });
+/*=======================================
+BOTON PAGAR PAYU
+=======================================*/
+function pagarConPayu(){
+	if($("#seleccionarPais").val() ==""){
+		$(".formPayu").after('<div class="alert alert-warning">No ha seleccionado el pais de envio</div>');
+		$(".formPayu input[name='Submit']").attr("type","button");
+		return;
+	}
+	var divisa = $("#cambiarDivisa").val();
+	var total = $(".valorTotalCompra").html();
+	var impuesto = $(".valorTotalImpuesto").html();
+	var envio = $(".valorTotalEnvio").html();
+	var subtotal = $(".valorSubTotal").html();
+	var titulo = $(".valorTitulo");
+	var cantidad = $(".valorCantidad");
+	var valorItem = $(".valorItem");
+	var idProducto = $(".cuerpoCarrito button, .comprarAhora button");
+
+	var tituloArray = [];
+	var cantidadArray = [];
+	var idProductoArray = [];
+
+	for(var i = 0;i<titulo.length;i++){
+		tituloArray[i] = $(titulo[i]).html();
+		cantidadArray[i] = $(cantidad[i]).html();
+		idProductoArray[i] = $(idProducto[i]).attr("idProducto");
+	}
+	
+	 var datos = new FormData();
+	 datos.append("metodoPago","payu");
+	  $.ajax({
+		  url: rutaOculta+"ajax/carrito.ajax.php",
+		  method: "POST",
+		  data: datos,
+		  cache: false,
+		  contentType: false,
+		  processData:false,
+		  success: function (response) {
+			  var merchantId = JSON.parse(response).merchantIdPayu;
+			  var accountId = JSON.parse(response).accountIdPayu;
+			  var apiKey = JSON.parse(response).apiKeyPayu;
+			  var modo = JSON.parse(response).modoPayu;
+			  var description = tituloArray.toString();
+			  var referenceCode = (Number(Math.ceil(Math.random()*1000000))+Number(total).toFixed());
+			  var productosString = idProductoArray.toLocaleString();
+			  var productos = productosString.replace(/,/g,"-");
+			  var cantidadString = cantidadArray.toString();
+			  var cantidad = cantidadString.replace(/,/g,"-");
+			  var signature =hex_md5(apiKey+"~"+merchantId+"~"+referenceCode+"~"+total+"~"+divisa);
+			  
+			  if(divisa == "COP"){
+				var taxReturnBase = (total-impuesto).toFixed(2);			
+			  }
+			  else{
+				var taxReturnBase = 0;
+			  }
+			  if(modo == "sandbox"){
+				var url = "https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/";
+				var test = 1;				
+			  }
+			  else{
+				var url = "https://checkout.payulatam.com/ppp-web-gateway-payu/";
+				var test = 0;					
+			  }
+			  if(envio != 0){
+				var tipoEnvio = "YES";
+			  }
+			  else{
+				  var tipoEnvio = "NO";
+			  }
+			  $(".formPayu ").attr("method","POST");
+			  $(".formPayu ").attr("action",url);
+			  $(".formPayu input[name='merchantId']").attr("value",merchantId);
+			  
+			  $(".formPayu input[name='accountId']").attr("value",accountId);
+			  $(".formPayu input[name='description']").attr("value",description);
+			  $(".formPayu input[name='referenceCode']").attr("value",referenceCode);
+			  $(".formPayu input[name='amount']").attr("value",total);
+			  $(".formPayu input[name='tax']").attr("value",impuesto);
+			  $(".formPayu input[name='taxReturnBase']").attr("value",taxReturnBase);
+			  $(".formPayu input[name='shipmentValue']").attr("value",envio);
+			  $(".formPayu input[name='currency']").attr("value",divisa);
+			  $(".formPayu input[name='responseUrl']").attr("value",rutaOculta+"index.php?ruta=finalizar-compra&payu=true&productos="+productos+"&cantidad="+cantidad);
+			  $(".formPayu input[name='declinedResponseUrl']").attr("value",rutaOculta+"carrito-de-compras");
+			  $(".formPayu input[name='displayShippingInformation']").attr("value",tipoEnvio);
+			  $(".formPayu input[name='test']").attr("value",test);
+			  $(".formPayu input[name='signature']").attr("value",signature);
+
+
+			  
+			  
+
+			  
+		  }
+	  });
+}
